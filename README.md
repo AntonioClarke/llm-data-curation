@@ -1,4 +1,6 @@
-# Programatic LLM Data Curation
+# Pre-Training Data Curation with LLMs
+
+_Disclaimer: I threw this repo together extremely quickly as a feasibility demonstration of pre-training data curation with LLMs. It is *very* rough and is *definitely not* meant for use in production._
 
 ## About This Project
 
