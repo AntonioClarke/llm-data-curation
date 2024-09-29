@@ -1,4 +1,4 @@
-## Programatic LLM Data Curation
+# Programatic LLM Data Curation
 
 ## About This Project
 
@@ -9,7 +9,23 @@ This project aims to *steer, influence, or limit* a base model's *overall behavi
 Critically, if a model doesn't have data displaying certain characteristics in its base dataset, it *should* be more difficult to trigger those characteristics in the resultant model than in one that was solely fine-tuned not to exhibit them. For example, it should be much more robust to jailbreaks, because rather than certain capabilities being inhibited by fine-tuning or reinforcement learning, the model simply doesn't have those capabilities in the first place.
 
 
-## Technical Details
+## Running Data Cleaning
+
+1. Create a `.env` file and inside of it instantiate env variable named OPENAI_API_KEY containing your OpenAI API key.
+2. Download the pre-training dataset and place it in a `data/raw` folder in the repo's root directory
+3. Run `python src/clean_data.py`
+4. Cleaned data will be written in a `data/processed` folder
+
+## Automated Tests
+
+This repo uses `pytest` for testing. To run tests:
+
+`pytest tests/filename.py`
+
+Keep in mind that ~many of the tests will involve queries to an LLM, which will require adding your API key (see data cleaning instructions) incur any associated costs associated with the queries.
+
+
+## Implementation Details
 
 This method should be performed after pre-training data has been scraped, grouped, and had the standard non-LLM data curation steps performed on it for maximum efficiency.
 
@@ -20,18 +36,3 @@ Decisions about whether to filter or revise data are made by running each data p
 The assessment's probability is compared to two user-defined thresholds: a `FILTER_THRESHOLD` and a `REVISE_THRESHOLD`, which determine whether a given datapoint should be filtered or revised, respectively. These thresholds should be tuned by the end-user for each use-case.
 
 Similar to assessments, revisions are performed by a `Revision` class, which transforms any input string to a new string better conforming to the end user's criteria. In my example, this is done with an LLM that attempts to rewrite content to be less *deceptive*. However, like assessments, the internal workings of the revision can be customized as desired.
-
-### Running Data Cleaning
-
-1. Create a `.env` file and inside of it instantiate env variable named OPENAI_API_KEY containing your OpenAI API key.
-2. Download the pre-training dataset and place it in a `data/raw` folder in the repo's root directory
-3. Run `python src/clean_data.py`
-4. Cleaned data will be written in a `data/processed` folder
-
-### Automated Tests
-
-This repo uses `pytest` for testing. To run tests:
-
-`pytest tests/filename.py`
-
-Keep in mind that ~many of the tests will involve queries to an LLM, which will require adding your API key (see data cleaning instructions) incur any associated costs associated with the queries.
